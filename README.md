@@ -1,2 +1,6 @@
 # goblin_core_linux_theme
-I saw a video by diinki making the most whimsical linux theme and I thouhgt it might be cool eventually creating my own linux theme once I have done a bit more with it and understand it better. I want to base it off of goblin core, fantasy, yaelokre ish design ideas and try and make something cool with that. 
+This linux theme is both inspired by diinki and Yaekokre. I used the retrofuture rice by diinki as a base and then used the wallpaper by GKDeamon (which you can find under the name meadowlark) which I based the color scheme around. 
+
+It isn't all that much and I could probably also draw custom widgets and weather things and what not but for now I really like how this. 
+Will probably be updated in the future. 
+
