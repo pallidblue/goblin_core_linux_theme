@@ -1,0 +1,72 @@
+* {
+  font-family: Maple Mono;
+  background: transparent;
+  color: #d8cab8;
+}
+
+#window {
+  color: #a4ae69;
+  border-color: #a4ae69;
+  border-style: solid;
+  border-width: 1px;
+
+  /*Linear gradient background instead of standard background, because it makes cleaner border-radius cuts, issa bug :p*/
+  background-image: linear-gradient(to bottom, #241f17 100%);
+  border-radius: 14px;
+}
+#scroll {
+  border-top-style: solid;
+  border-width: 1px;
+  border-color: #a4ae69;
+}
+#inner-box {
+  padding-top: 12px;
+}
+#entry {
+  border-style: none;
+  border-color: #a4ae69;
+  color: #a4ae69;
+  padding: 6px;
+  margin-bottom: 8px;
+  margin-left: 12px;
+  margin-right: 12px;
+
+  border-radius: 12px;
+}
+
+#entry:selected {
+  background: #332d23;
+  color: #d8cab8;
+  font-weight: bold;
+  outline: none;
+}
+
+#input {
+  background-color: #241f17;
+  color: #a4ae69;
+  border-color: #a4ae69;
+
+  border-style: none;
+  border-bottom-style: solid;
+  border-width: 1px;
+
+  font-style: normal;
+
+  border-radius: 8px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  padding: 12px;
+  margin: 8px;
+}
+#input:focus {
+  background: #241f17;
+  background-color: #332d23;
+  border-color: #a4ae69;
+  font-style: normal;
+}
+
+#img {
+  padding: 4px;
+  margin-right: 6px;
+}
