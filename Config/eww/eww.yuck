@@ -1,4 +1,5 @@
 (include "eww_widgets.yuck")
+(include "eww_music.yuck")
 
 (defwindow yearbox
   :monitor '[0]'
@@ -63,4 +64,32 @@
     :height "100"
     :anchor "bottom right")
   (powermenu)
+)
+
+(defwindow music-widget
+  :monitor '[0]'
+  :stacking "bg"
+  :namespace "eww"
+  :geometry (
+    geometry :x "45px"
+             :y "50px"
+             :width "450px"
+             :height "220px"
+             :anchor "bottom left"
+  )
+  (music-widget)
+)
+
+
+(defwindow volume-popup
+  :monitor '[0]'
+  :stacking "fg"
+  :namespace "eww"
+  :geometry (geometry
+              :x "0"
+              :y "50"
+              :width "160"
+              :height "45"
+              :anchor "top center")
+  (volume-popup)
 )

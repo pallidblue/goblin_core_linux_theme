@@ -1,0 +1,91 @@
+;; --- Listeners & Polls ---
+;; Use `deflisten` with `playerctl --follow` to react to player events efficiently.
+(deflisten song_title    :initial "No Music Playing"
+"playerctl metadata --format '{{title}}' --follow | python3 $HOME/.config/eww/scroll.py 22 0.3 || echo 'No Music Playing'")
+
+(deflisten song_artist   :initial "Unknown Artist"
+"playerctl metadata --format '{{artist}}' --follow | python3 $HOME/.config/eww/scroll.py 25 0.3 || echo 'Unknown Artist'")
+
+(deflisten player_status :initial "Stopped"
+"playerctl metadata --format '{{status}}' --follow || echo 'Stopped'")
+
+(defpoll song_length_s   :interval "2s"
+"value=$(playerctl metadata mpris:length 2>/dev/null | awk '{print $1 / 1000000}'); test -n \"$value\" || value=1; printf '%s\\n' \"$value\"")
+
+(defpoll song_position_s    :interval "1s" "value=$(playerctl position 2>/dev/null); test -n \"$value\" || value=0; printf '%s\\n' \"$value\"")
+
+(defpoll formatted_position :interval "1s" "playerctl position -f '{{duration(position)}}' || echo '0:00'")
+
+(defpoll cover_art_path :interval "1s" "bash $HOME/.config/eww/get-cover.sh")
+(defpoll volume_percent :interval "2s" "value=$(bash $HOME/.config/eww/volumecontroller.sh get 2>/dev/null); test -n \"$value\" || value=0; printf '%s\\n' \"$value\"")
+(defpoll volume_mute    :interval "2s" "pamixer --get-mute")
+
+(deflisten cava :initial "" "bash $HOME/.config/eww/cava.sh")
+
+;; --- Widget Definition ---
+
+(defwidget music-widget []
+  (box :class "music-widget" :orientation "h" :space-evenly false
+    
+    ;; Left: Cover Art
+    (box :class "cover-art" :style "background-image: url('${cover_art_path}');")
+    
+    ;; Middle: Info & Controls
+    (box :class "music-info" :orientation "v" :space-evenly false :valign "center"
+      (label :class "song-title" :text song_title :halign "start")
+      (label :class "artist" :text song_artist :halign "start")
+    
+      (box :class "progress-container" :orientation "v" :space-evenly false
+        (label :class "position" :text formatted_position :halign "start")
+        (scale :class "progress-bar" 
+               :min 0 
+               :max song_length_s 
+               :value song_position_s 
+               :onchange "playerctl position {}")
+      )
+
+      (box :class "controls" :orientation "h" :space-evenly false :halign "center" :spacing 15
+        (button :onclick "playerctl previous" :tooltip "Previous" "󰒮")
+        (button :onclick "playerctl play-pause" :tooltip "Play/Pause" :class "play-btn" {player_status == "Playing" ? "󰏤" : "󰐊"})
+        (button :onclick "playerctl next" :tooltip "Next" "󰒭")
+      )
+
+      (box :class "visualizer-container" :halign "start"
+        (label :class "cava-visualizer" :text cava)
+      )
+
+    )
+    
+    ;; Right: Volume Column
+    (box :class "volume_bar" :orientation "v" :space-evenly false :valign "center" :halign "center"
+      (button :onclick "bash $HOME/.config/eww/volumecontroller.sh mute"
+              :class "vol_icon"
+              :style "color: ${volume_mute == 'true' ? '#a4ae69' : '#d8cab8'};"
+              {volume_mute == "true" ? "󰝟" : ""})
+      (scale :flipped true 
+             :orientation "v" 
+             :max 100 
+             :min 0 
+             :value {volume_percent}
+             :onchange "bash $HOME/.config/eww/volumecontroller.sh set {}")
+    )
+  )
+)
+
+(defwidget volume-popup []
+  (box :class "volume-popup" :orientation "h" :space-evenly false :valign "center"
+    (box :class "volume-popup-controls" :orientation "h" :space-evenly false :valign "center"
+      (button :onclick "bash $HOME/.config/eww/volumePopUp.sh mute"
+              :class "volume-popup-icon"
+              :style "color: ${volume_mute == 'true' ? '#a4ae69' : '#d8cab8'};"
+              {volume_mute == "true" ? "󰝟" : ""})
+      (scale :class "volume-popup-scale"
+             :orientation "h"
+             :max 100 
+             :min 0 
+             :value {volume_percent}
+             :onchange "bash $HOME/.config/eww/volumePopUp.sh set {}")
+    )
+  )
+)
+

@@ -1,4 +1,4 @@
-(include "eww_vars.yuck")
+ (include "eww_vars.yuck")
 
 (defwidget daybox []
   (box :height "100" :width "100" :halign "center" :valign "center" :class "container"
