@@ -5,8 +5,8 @@
   "margin-bottom": 0,
   "margin-top": 15,
   "position": "top",
-  "margin-right": 300,
-  "margin-left": 300,
+  "margin-right": 45,
+  "margin-left": 45,
   
   "modules-left": [
     "hyprland/workspaces",
@@ -64,6 +64,8 @@
   },
   "pulseaudio": {
     "scroll-step": 5,
+    "on-scroll-up": "bash $HOME/.config/eww/volumePopUp.sh up",
+    "on-scroll-down": "bash $HOME/.config/eww/volumePopUp.sh down",
     "max-volume": 150,
     "format": "{icon} {volume}%",
     "format-bluetooth": "{icon} {volume}%",
